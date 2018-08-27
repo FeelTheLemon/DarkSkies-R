@@ -61,6 +61,10 @@ void scan_i2c(void)
 		{
 			printf("\r\n%x* ", (i+1) % 0xf); // No ACK received at that address
 		}
+
+		#ifdef HAL_IWDG_MODULE_ENABLED
+		HAL_IWDG_Refresh(&hiwdg);
+		#endif
 	}
 	printf("\r\n\n");
 }
@@ -80,10 +84,16 @@ void Sensors_Init(void)
 	  // accelerometer in low-power mode to estimate quat's.
 	  // DMP_FEATURE_LP_QUAT and 6X_LP_QUAT are mutually exclusive
 
-
+	#ifdef HAL_IWDG_MODULE_ENABLED
+	HAL_IWDG_Refresh(&hiwdg);
+	#endif
 
 	BMP280_Init(&BMP_B, BMP280_I2C_ADDR_PRIM);
 	BMP280_Init(&BMP_F, BMP280_I2C_ADDR_SEC);
+
+	#ifdef HAL_IWDG_MODULE_ENABLED
+	HAL_IWDG_Refresh(&hiwdg);
+	#endif
 
 	GPS_Init(&GPS);
 

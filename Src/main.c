@@ -156,7 +156,7 @@ int main(void)
 	  HAL_Delay(100);*/
 
 	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
-	  Sensors_Read();
+	  //Sensors_Read();
 	  //Radio_Read();
 	  OSD_Send();
 	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);

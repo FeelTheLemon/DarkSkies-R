@@ -82,8 +82,8 @@ void Radio_Read(void)
 
 		OutControl_SetValue(LA, map(lx, -128, 127, SERVO_MIN, SERVO_MAX));
 		OutControl_SetValue(RA, map(lx, -128, 127, SERVO_MIN, SERVO_MAX));
-		OutControl_SetValue(EL, map(ly, -128, 127, SERVO_MIN, SERVO_MAX));
-		OutControl_SetValue(RD, map(rx, -128, 127, SERVO_MIN, SERVO_MAX));
+		OutControl_SetValue(EL, map(ly, -128, 127, SERVO_MAX, SERVO_MIN));
+		OutControl_SetValue(RD, map(rx, -128, 127, SERVO_MAX, SERVO_MIN));
 
 		//Serial3.print(F("Got payload "));
 		//Serial3.println(data[5]);
