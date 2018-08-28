@@ -69,7 +69,7 @@ void Radio_Read(void)
 		uint8_t th = data[4];
 
 		//printf("lx: %.2f, ly: %.2f, rx: %.2f, ry: %.2f, th: %.2f \r\n", lx, ly, rx, ry, th);
-		printf("lx: %i, ly: %i, rx: %i, ry: %i, th: %u \r\n", lx, ly, rx, ry, th);
+		//printf("lx: %i, ly: %i, rx: %i, ry: %i, th: %u \r\n", lx, ly, rx, ry, th);
 
 		/*if (th < 20)
 			OutControl_SetValue(EN, 1300);

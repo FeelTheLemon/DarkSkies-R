@@ -5,6 +5,7 @@
  *      Author: feelt
  */
 #include <stdbool.h>
+#include <GPS/gps.h>
 
 #ifndef SENSORS_H_
 #define SENSORS_H_
@@ -13,11 +14,20 @@
  extern "C" {
 #endif
 
-struct EAngle
+struct sAngle
 {
 	float pitch, yaw, roll;
 };
-extern struct EAngle Angles;
+extern struct sAngle Angles;
+
+struct sPower
+{
+	float V;
+	float A;
+	float P;
+};
+extern struct sPower Power;
+extern struct GPS_Data GPS;
 
 void Sensors_Init(void);
 void Sensors_Read(void);

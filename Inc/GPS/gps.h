@@ -1,5 +1,6 @@
 #ifndef GPS_H_
 #define GPS_H_
+#include <stdint.h>
 
 #ifdef __cplusplus
  extern "C" {

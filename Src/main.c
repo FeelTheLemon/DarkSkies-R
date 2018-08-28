@@ -52,7 +52,7 @@
 #include <out_control.h>
 #include <sensors.h>
 #include <radio.h>
-#include <osd.h>
+#include <OSD/osd.h>
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -156,8 +156,8 @@ int main(void)
 	  HAL_Delay(100);*/
 
 	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
-	  //Sensors_Read();
-	  //Radio_Read();
+	  Sensors_Read();
+	  //Radio_Read(); //Don't use, working over interrupt now
 	  OSD_Send();
 	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
 	  HAL_Delay(5);

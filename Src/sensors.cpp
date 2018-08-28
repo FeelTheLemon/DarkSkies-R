@@ -14,18 +14,22 @@
 #include <util.h>
 #include <MPU9250_DMP/MPU9250_DMP.h>
 #include <BMP280/BMP280.h>
-#include <GPS/gps.h>
+#include <INA219/INA219.h>
 
 #include <MPU9250_DMP/util/stm32_mpu9250_spi.h>
 #include <MPU9250_DMP/MPU9250_RegisterMap.h>
 
-struct EAngle Angles;
+struct sAngle Angles;
+struct sPower Power;
 
 MPU9250_DMP mpu9250;
+INA219 ina219(INA219_ADDRESS);
 
 struct BMP280 BMP_F;
 struct BMP280 BMP_B;
 struct GPS_Data GPS;
+
+
 
 uint32_t c = 0;
 
@@ -88,6 +92,9 @@ void Sensors_Init(void)
 	HAL_IWDG_Refresh(&hiwdg);
 	#endif
 
+	ina219.setCalibration_16V_32A();
+	//ina219.setCalibration_16V_400mA();
+
 	BMP280_Init(&BMP_B, BMP280_I2C_ADDR_PRIM);
 	BMP280_Init(&BMP_F, BMP280_I2C_ADDR_SEC);
 
@@ -131,6 +138,13 @@ void Sensors_Read(void)
 		UNUSED(v);
 		//printf("pres: f: %f, b:%f speed: %f \r\n", fp, bp, v * 3.6);
 
+
+
+		Power.V = ina219.getBusVoltage_V();
+		Power.A = ina219.getCurrent_A();
+		Power.P = ina219.getPower_W();
+
+		printf("shunt: %f \r\n", ina219.getShuntVoltage_mV());
 	}
 
 	if (c % 20 == 0)
