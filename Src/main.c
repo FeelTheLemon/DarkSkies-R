@@ -37,6 +37,7 @@
   ******************************************************************************
   */
 /* Includes ------------------------------------------------------------------*/
+
 #include "main.h"
 #include "stm32f1xx_hal.h"
 #include "crc.h"
@@ -49,9 +50,9 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
-#include <out_control.h>
-#include <sensors.h>
-#include <radio.h>
+#include <Control/control.h>
+#include <Sensors/sensors.h>
+#include <Radio/radio.h>
 #include <OSD/osd.h>
 /* USER CODE END Includes */
 

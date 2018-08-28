@@ -6,8 +6,8 @@
  */
 
 
-#ifndef OUT_CONTROL_H_
-#define OUT_CONTROL_H_
+#ifndef CONTROL_H_
+#define CONTROL_H_
 
 #ifdef __cplusplus
  extern "C" {
@@ -38,4 +38,4 @@ void OutControl_SetValue(struct pwm_out PWM, int32_t value);
 }
 #endif
 
-#endif /* OUT_CONTROL_H_ */
+#endif /* CONTROL_H_ */

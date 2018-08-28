@@ -6,7 +6,7 @@
  *      Author: feelt
  */
 
-#include "out_control.h"
+#include "control.h"
 #include "stm32f1xx_hal.h"
 #include "util.h"
 

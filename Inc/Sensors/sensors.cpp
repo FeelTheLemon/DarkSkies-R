@@ -144,7 +144,7 @@ void Sensors_Read(void)
 		Power.A = ina219.getCurrent_A();
 		Power.P = ina219.getPower_W();
 
-		printf("shunt: %f \r\n", ina219.getShuntVoltage_mV());
+		//printf("shunt: %f \r\n", ina219.getShuntVoltage_mV());
 	}
 
 	if (c % 20 == 0)

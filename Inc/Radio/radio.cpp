@@ -6,10 +6,10 @@
  */
 
 
-#include <radio.h>
-#include "spi.h"
+#include <Control/control.h>
+#include "radio.h"
+#include <spi.h>
 #include "RF24/RF24.h"
-#include <out_control.h>
 
 RF24 radio(&hspi1);
 

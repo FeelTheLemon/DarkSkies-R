@@ -7,6 +7,8 @@
 
 #include "osd.h"
 
+#include <Sensors/sensors.h>
+
 void OSD_Send(void)
 {
 
