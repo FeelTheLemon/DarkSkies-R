@@ -15,6 +15,7 @@
 #include <MPU9250_DMP/MPU9250_DMP.h>
 #include <BMP280/BMP280.h>
 #include <INA219/INA219.h>
+#include <OSD/osd.h>
 
 #include <MPU9250_DMP/util/stm32_mpu9250_spi.h>
 #include <MPU9250_DMP/MPU9250_RegisterMap.h>
@@ -119,6 +120,10 @@ void Sensors_Read(void)
 			mpu9250.computeEulerAngles();
 
 			//printf("p: %.2f, y: %.2f, r: %.2f \r\n", mpu9250.pitch, mpu9250.yaw, mpu9250.roll);
+
+			OSD_Data.pitch = mpu9250.pitch;
+			OSD_Data.yaw = mpu9250.yaw;
+			OSD_Data.roll = mpu9250.roll;
 		}
 	}
 
@@ -131,18 +136,25 @@ void Sensors_Read(void)
 		float fp = BMP_F.pres + 34;
 		float bp = BMP_B.pres;
 
+		float seaLevelhPa = 101325.00;
+
+		OSD_Data.altitude_bar = 44330 * (1.0 - pow(BMP_B.pres / seaLevelhPa, 0.1903)); // From Adafriuit library
+
+		//OSD_Data.altitude_bar = 18400 * (1 + 0.003665 * BMP_B.temp) * log10(BMP_B.pres / seaLevelhPa); // From wikipedia https://goo.gl/61ksYV
+
+		//OSD_Data.altitude_bar = (287.05 / 9.80665) * BMP_B.temp * log(BMP_B.pres / seaLevelhPa); // From wikipedia https://goo.gl/g4m7GX
 		float p = 1.2; //плотность воздуха
 
-		double v = sqrt((2 * (fp - bp)) / (1.0f * p));
+		OSD_Data.speedKph_bar = sqrt((2 * (fp - bp)) / (1.0f * p));
 
-		UNUSED(v);
+		//printf("altitude: %f, pres: %f\r\n", OSD_Data.altitude_bar, BMP_B.pres);
+
+
 		//printf("pres: f: %f, b:%f speed: %f \r\n", fp, bp, v * 3.6);
 
-
-
-		Power.V = ina219.getBusVoltage_V();
-		Power.A = ina219.getCurrent_A();
-		Power.P = ina219.getPower_W();
+		OSD_Data.V = ina219.getBusVoltage_V();
+		OSD_Data.I = ina219.getCurrent_A();
+		OSD_Data.P = ina219.getPower_W();
 
 		//printf("shunt: %f \r\n", ina219.getShuntVoltage_mV());
 	}
@@ -150,6 +162,17 @@ void Sensors_Read(void)
 	if (c % 20 == 0)
 	{
 		//printf("GPS: status: %c, time: %u, %f%c, %f%c\r\n", GPS.status, GPS.time, GPS.latitude, GPS.NS, GPS.longitude, GPS.EW);
+		OSD_Data.status = GPS.status;
+		OSD_Data.time = GPS.time;
+		OSD_Data.NS = GPS.NS;
+		OSD_Data.EW = GPS.EW;
+		OSD_Data.latitude = GPS.latitude;
+		OSD_Data.longitude = GPS.longitude;
+		OSD_Data.altitude = GPS.altitude;
+		OSD_Data.speedKph = GPS.speedKph;
+		OSD_Data.PDOP = GPS.PDOP;
+		OSD_Data.satellitesNum = GPS.satellitesNum;
+
 	}
 	c++;
 }

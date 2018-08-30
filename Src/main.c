@@ -37,7 +37,6 @@
   ******************************************************************************
   */
 /* Includes ------------------------------------------------------------------*/
-
 #include "main.h"
 #include "stm32f1xx_hal.h"
 #include "crc.h"
@@ -258,6 +257,9 @@ static void MX_NVIC_Init(void)
   /* USART3_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(USART3_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(USART3_IRQn);
+  /* DMA1_Channel3_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Channel3_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Channel3_IRQn);
   /* USART2_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(USART2_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(USART2_IRQn);
@@ -278,6 +280,14 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 		//printf("Radio_Interrupt\r\n");
 		Radio_Interrupt();
 	}
+}
+
+void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
+{
+    if (huart->Instance == USART1)  // change USART instance
+    {
+       // Transmit complete handle RS-485 related stuff
+    }
 }
 
 /**

@@ -8,13 +8,24 @@
 #ifndef OSD_H_
 #define OSD_H_
 
-void OSD_Send(void);
+#include <stdint.h>
 
-struct OSD_Data
+void OSD_Send(void);
+void OSD_UartReady(void);
+
+struct sOSD_Data
 {
-	float pitch;
-	float yaw;
-	float roll;
+	float pitch, yaw, roll;
+
+	float V, I, P;
+
+	float altitude_bar, speedKph_bar;
+
+	float latitude, longitude, altitude, speedKph, PDOP;
+	unsigned int time;
+	char status, NS, EW;
+	unsigned char satellitesNum;
 };
+extern struct sOSD_Data OSD_Data;
 
 #endif /* OSD_H_ */
