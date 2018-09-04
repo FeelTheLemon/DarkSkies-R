@@ -119,7 +119,7 @@ void Sensors_Read(void)
 			// quaternion values -- to estimate roll, pitch, and yaw
 			mpu9250.computeEulerAngles();
 
-			//printf("p: %.2f, y: %.2f, r: %.2f \r\n", mpu9250.pitch, mpu9250.yaw, mpu9250.roll);
+			printf("p: %.2f, y: %.2f, r: %.2f \r\n", mpu9250.pitch, mpu9250.yaw, mpu9250.roll);
 
 			OSD_Data.pitch = mpu9250.pitch;
 			OSD_Data.yaw = mpu9250.yaw;

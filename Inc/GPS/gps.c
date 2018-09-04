@@ -12,7 +12,9 @@ struct GPS_Data *_gps;
 
 void gpsReadData()
 {
-	HAL_UART_Receive_DMA(&huart3, _gps->rx_buf, sizeof(_gps->rx_buf));
+	HAL_StatusTypeDef status = HAL_UART_Receive_DMA(&huart3, _gps->rx_buf, sizeof(_gps->rx_buf));
+
+	if (status != HAL_OK) printf("gpsReadData FAILED with status 0x%x, error: 0x%lx , state: 0x%x\r\n", status, HAL_UART_GetError(&huart3), HAL_UART_GetState(&huart3));
 }
 
 void GPS_Init(struct GPS_Data *gps)
@@ -25,6 +27,8 @@ void GPS_Init(struct GPS_Data *gps)
 	_gps = gps;
 
 	gpsReadData();
+
+	printf("GPS receive started\r\n");
 }
 
 /*
@@ -114,7 +118,7 @@ void gpsParseData(char *buf)
 	{
 		if (_gps->status == 'A')
 		{
-			_gps->satellitesNum = atoi(exp[7]);
+			_gps->satellitesNum = (unsigned char)atoi(exp[7]);
 			_gps->altitude = atoi(exp[9]);
 			_gps->gSeparation = atoi(exp[10]);
 		}
@@ -134,6 +138,8 @@ void gpsParseData(char *buf)
 
 void gpsUpdateData(char *buf)
 {
+	//printf("%s\r\n", buf);
+
 	char * pch = strchr(buf, '\n');
 
 	if (pch == NULL)
@@ -163,8 +169,6 @@ void HAL_UART_RxHalfCpltCallback(UART_HandleTypeDef * huart)
 	size_t bs = sizeof(_gps->rx_buf) / 2;
 	memcpy(_gps->pre_buf, _gps->rx_buf, bs);
 
-	//printf("%s", _gps->pre_buf);
-
 	gpsUpdateData(_gps->pre_buf);
 }
 
@@ -174,8 +178,6 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef * huart)
 
 	size_t bs = sizeof(_gps->rx_buf) / 2;
 	memcpy(_gps->pre_buf, _gps->rx_buf + bs, bs);
-
-	//printf("%s", _gps->pre_buf);
 
 	gpsUpdateData(_gps->pre_buf);
 }

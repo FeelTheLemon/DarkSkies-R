@@ -675,12 +675,18 @@ void MPU9250_DMP::computeEulerAngles(bool degrees)
 	// 	8° 30' E  ± 0° 21' (or 8.5°) on 2016-07-19
 	// - http://www.ngdc.noaa.gov/geomag-web/#declination
 
-	pitch *= RAD_TO_DEG;
-	yaw *= RAD_TO_DEG;
+	pitch *= -RAD_TO_DEG;
+	yaw *= -RAD_TO_DEG;
 	roll *= RAD_TO_DEG;
 
-	yaw -= 9.27;
-	yaw += 90;
+	yaw += 9.27;
+	//yaw -= 90;
+
+
+	if (yaw < 0) {
+		yaw = 360 + yaw;
+	}
+
 }
 
 float MPU9250_DMP::computeCompassHeading(void)

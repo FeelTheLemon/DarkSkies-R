@@ -24,7 +24,7 @@ struct GPS_Data {
 	float track;
 	char date[15];
 	float speedKph;
-	unsigned short satellitesNum;
+	unsigned char satellitesNum;
 	float altitude;
 	float gSeparation;
 	float PDOP;
